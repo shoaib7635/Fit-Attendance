@@ -3,11 +3,31 @@ import { StudentContext } from "../StudentContext";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
+import axios from "axios";
 
 // AddStudent Component with beautiful theme
 function AddStudent() {
   const [student, setStudent] = useState({ name: "", course: "",CNIC: "" });
   const { addStudent } = useContext(StudentContext);
+
+  // CSV file
+     const [file, setFile] = useState(null);
+  
+    const handleUpload = async () => {
+      if (!file) return toast.error("Please select a CSV file");
+      const formData = new FormData();
+      formData.append("file", file);
+  
+      try {
+        await axios.post("http://localhost:4000/import-csv", formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
+        toast.success("CSV data imported successfully!");
+      } catch (error) {
+        console.error(error);
+        toast.error("Error importing CSV data");
+      }
+    };
 
   const handleCNICChange = (e) => {
   let value = e.target.value.replace(/\D/g, ""); // Remove non-digits
@@ -179,6 +199,10 @@ function AddStudent() {
             <p className="text-sm text-gray-500 bg-gray-50 rounded-xl p-3">
               📚 Fill in all required fields to register a new student
             </p>
+            <div className="pt-4 ">
+      <input type="file" accept=".csv" onChange={(e) => setFile(e.target.files[0])} />
+      <button onClick={handleUpload} className="bg-green-700 text-white font-medium rounded px-3 py-2">Upload CSV</button>
+    </div>
           </div>
         </div>
       </div>
