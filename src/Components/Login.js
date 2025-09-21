@@ -30,7 +30,7 @@ function Login() {
       const result = await res.json();
 console.log(result);
 
-      if (res.ok) {
+      if (res) {
         // Store user data in localStorage
         localStorage.setItem('user', JSON.stringify(result.data));
         toast.success(result.message);

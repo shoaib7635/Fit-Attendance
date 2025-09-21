@@ -48,7 +48,7 @@ function AddStudent() {
     
   e.preventDefault();
 
-  const userId = localStorage.getItem("userId");
+  const userId = localStorage.getItem("user");
   console.log(userId);
   
   if (!userId) return toast.error("You must be logged in");
