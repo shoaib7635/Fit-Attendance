@@ -19,7 +19,7 @@ function AddStudent() {
       formData.append("file", file);
   
       try {
-        await axios.post("http://localhost:4000/import-csv", formData, {
+        await axios.post("https://attendance-backend-1-z8h9.onrender.com/import-csv", formData, {
           headers: { "Content-Type": "multipart/form-data" },
         });
         toast.success("CSV data imported successfully!");
@@ -52,7 +52,7 @@ function AddStudent() {
   if (!userId) return toast.error("You must be logged in");
 
   try {
-    const res = await fetch("http://localhost:4000/addstudent", {
+    const res = await fetch("https://attendance-backend-1-z8h9.onrender.com/addstudent", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

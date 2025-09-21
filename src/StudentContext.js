@@ -10,10 +10,10 @@ export const StudentProvider = ({ children }) => {
 
   const fetchStudents = async () => {
     try {
-      const res = await axios.get("http://localhost:4000/students");
+      const res = await axios.get("https://attendance-backend-1-z8h9.onrender.com/students");
     
       // Get today's attendance data
-      const attendanceRes = await axios.get(`http://localhost:4000/attendance-report?date=${new Date().toISOString().split("T")[0]}`);
+      const attendanceRes = await axios.get(`https://attendance-backend-1-z8h9.onrender.com/attendance-report?date=${new Date().toISOString().split("T")[0]}`);
 
       // Extract present and absent IDs from students that still exist
       const presentIds = attendanceRes.data.present
@@ -54,7 +54,7 @@ export const StudentProvider = ({ children }) => {
   const markPresent = async (userId) => {
     const date = new Date().toISOString().split("T")[0];
     try {
-      await axios.post("http://localhost:4000/mark-attendance", {
+      await axios.post("https://attendance-backend-1-z8h9.onrender.com/mark-attendance", {
         userId,
         status: "Present",
         date,
@@ -68,7 +68,7 @@ export const StudentProvider = ({ children }) => {
   const markAbsentForToday = async () => {
     const date = new Date().toISOString().split("T")[0];
     try {
-      await axios.post("http://localhost:4000/mark-all-absent", { date });
+      await axios.post("https://attendance-backend-1-z8h9.onrender.com/mark-all-absent", { date });
       fetchStudents();
     } catch (err) {
       console.error("Mark Absent Error:", err);
@@ -80,7 +80,7 @@ export const StudentProvider = ({ children }) => {
     if (!toast.success("Are you sure you want to delete this student?")) return;
     
     try {
-      await axios.delete(`http://localhost:4000/delete-student/${studentId}`);
+      await axios.delete(`https://attendance-backend-1-z8h9.onrender.com/delete-student/${studentId}`);
       
       // Remove student from local state immediately for UI update
       setStudents(prev => prev.filter(student => student._id !== studentId));

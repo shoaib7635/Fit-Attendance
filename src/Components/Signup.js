@@ -27,7 +27,7 @@ function Signup() {
     const data = { username, email, password };
 
     try {
-      const res = await fetch("http://localhost:4000/signup", {
+      const res = await fetch("https://attendance-backend-1-z8h9.onrender.com/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),

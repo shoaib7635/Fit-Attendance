@@ -12,7 +12,7 @@ export default function StudentAttendanceModal({ studentId, onClose }) {
   ];
 
   useEffect(() => {
-    axios.get(`http://localhost:4000/student-attendance/${studentId}`)
+    axios.get(`https://attendance-backend-1-z8h9.onrender.com/student-attendance/${studentId}`)
       .then(res => setData(res.data))
       .catch(err => console.error(err));
   }, [studentId]);

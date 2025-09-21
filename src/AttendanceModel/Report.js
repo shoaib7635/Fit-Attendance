@@ -16,7 +16,7 @@ function Report() {
   // Date wise report fetch karne ka function
   const fetchReport = useCallback(async () => {
     try {
-      const res = await axios.get(`http://localhost:4000/attendance-report?date=${selectedDate}`);
+      const res = await axios.get(`https://attendance-backend-1-z8h9.onrender.com/attendance-report?date=${selectedDate}`);
       setReport({ present: res.data.present, absent: res.data.absent });
     } catch (err) {
       console.error("Error fetching report:", err);
@@ -28,7 +28,7 @@ function Report() {
     if (!searchQuery.trim()) return;
     setLoadingSearch(true);
     try {
-      const res = await axios.get(`http://localhost:4000/attendance-by-student?query=${searchQuery}`);
+      const res = await axios.get(`https://attendance-backend-1-z8h9.onrender.com/attendance-by-student?query=${searchQuery}`);
       setSearchRecords(res.data);
       setSuggestions([]);
     } catch (err) {
@@ -46,7 +46,7 @@ function Report() {
       return;
     }
     try {
-      const res = await axios.get(`http://localhost:4000/attendance-by-student?query=${query}`);
+      const res = await axios.get(`https://attendance-backend-1-z8h9.onrender.com/attendance-by-student?query=${query}`);
       const sug = res.data.map(rec => ({
         name: rec.student?.name || rec.name,
         CNIC: rec.student?.CNIC || rec.CNIC
