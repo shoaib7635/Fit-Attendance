@@ -49,6 +49,8 @@ function AddStudent() {
   e.preventDefault();
 
   const userId = localStorage.getItem("userId");
+  console.log(userId);
+  
   if (!userId) return toast.error("You must be logged in");
 
   try {
@@ -64,6 +66,7 @@ function AddStudent() {
     });
 
     const data = await res.json();
+    console.log(data)
 
     if (res.ok) {
       toast.success(data.message);

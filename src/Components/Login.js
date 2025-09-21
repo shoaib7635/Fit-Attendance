@@ -28,6 +28,7 @@ function Login() {
       });
    
       const result = await res.json();
+console.log(result);
 
       if (res.ok) {
         // Store user data in localStorage
