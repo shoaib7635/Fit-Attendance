@@ -11,12 +11,17 @@ function Login() {
   const [password, setPassword] = useState("");
 
   // Check if user is already logged in
-  useEffect(() => {
-    const user = JSON.parse(localStorage.getItem('user') || 'null');
-    if (user && user.role === 'admin') {
+useEffect(() => {
+  try {
+    const stored = localStorage.getItem("user");
+    const user = stored && stored !== "undefined" && stored !== "null" ? JSON.parse(stored) : null;
+    if (user && user.role === "admin") {
       navigate("/addstudent");
     }
-  }, [navigate]);
+  } catch (err) {
+    console.error("Invalid user in localStorage:", err);
+  }
+}, [navigate]);
 
   const handleLogin = async (e) => {
     e.preventDefault();
