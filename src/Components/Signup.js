@@ -33,15 +33,20 @@ function Signup() {
         body: JSON.stringify(data),
       });
       const result = await res.json();
+      console.log(result);
 
-      if (res.ok) {
-        toast.success(result.message);
-        setTimeout(() => {
-          navigate("/");
-        }, 1500);
-      } else {
-        toast.error(result.message);
-      }
+     
+if (res.ok && result.data) {
+  // Store user data safely
+  localStorage.setItem("user", JSON.stringify(result.data));
+  toast.success(result.message);
+
+  setTimeout(() => {
+    navigate("/addstudent");
+  }, 1500);
+} else {
+  toast.error(result.message || "Invalid credentials");
+}
     } catch (err) {
       toast.error(err.message);
     }

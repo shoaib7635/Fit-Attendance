@@ -8,7 +8,16 @@ import { toast } from "react-toastify";
 const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const user = JSON.parse(localStorage.getItem('user') || 'null');
+  let user = null;
+  try {
+    const stored = localStorage.getItem("user");
+    if (stored && stored !== "undefined" && stored !== "null") {
+      user = JSON.parse(stored);
+    }
+  } catch (e) {
+    console.error("Invalid user in localStorage:", e);
+    user = null;
+  }
   const isLoggedIn = user && user.role === 'admin';
   
   // Don't show navbar on login/signup pages

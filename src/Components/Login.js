@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -6,45 +6,43 @@ import { toast } from "react-toastify";
 
 
 function Login() {
-  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  // Check if user is already logged in
-  useEffect(() => {
-    const user = JSON.parse(localStorage.getItem('user') || 'null');
-    if (user && user.role === 'admin') {
-      navigate("/addstudent");
-    }
-  }, [navigate]);
+  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
+
     try {
-      const res = await fetch("https://attendance-backend-1-z8h9.onrender.com/login", {
+      const res = await fetch("http://localhost:4000/login", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify({ email, password }),
       });
-   
-      const result = await res.json();
-console.log(result);
 
-      if (res) {
-        // Store user data in localStorage
-        localStorage.setItem('user', JSON.stringify(result.data));
+      const result = await res.json();
+      console.log(result);
+
+      // ✅ Updated condition
+      if (res.ok && result.data) {
+        localStorage.setItem("user", JSON.stringify(result.data));
         toast.success(result.message);
-        // Admin login successful → navigate to attendance page
+
         setTimeout(() => {
           navigate("/addstudent");
         }, 1500);
       } else {
-        toast.error(result.message); // Access denied or invalid credentials
+        toast.error(result.message || "Invalid credentials");
       }
     } catch (err) {
-      toast.error("Login failed: " + err.message);
+      console.error(err);
+      toast.error("Something went wrong");
     }
   };
+
+
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex items-center justify-center">
@@ -105,12 +103,12 @@ console.log(result);
         </form>
 
         <div className="flex justify-center items-center mt-6 text-sm">
-          <p className="text-gray-600">Don't have an account?</p>
+          <p className="text-gray-600">Don't have admin access?</p>
           <span
             onClick={() => navigate("/signup")}
             className="text-blue-500 hover:underline ml-1 cursor-pointer"
           >
-            SignUp
+            Contact Administrator
           </span>
         </div>
       </div>
