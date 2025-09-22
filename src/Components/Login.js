@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -6,43 +6,45 @@ import { toast } from "react-toastify";
 
 
 function Login() {
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate();
+
+  // Check if user is already logged in
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem('user') || 'null');
+    if (user && user.role === 'admin') {
+      navigate("/addstudent");
+    }
+  }, [navigate]);
 
   const handleLogin = async (e) => {
     e.preventDefault();
-
     try {
-      const res = await fetch("http://localhost:4000/login", {
+      const res = await fetch("https://attendance-backend-1-z8h9.onrender.com/login", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       });
-
+   
       const result = await res.json();
-      console.log(result);
+console.log(result);
 
-      // ✅ Updated condition
-      if (res.ok && result.data) {
-        localStorage.setItem("user", JSON.stringify(result.data));
+      if (res) {
+        // Store user data in localStorage
+        localStorage.setItem('user', JSON.stringify(result.data));
         toast.success(result.message);
-
+        // Admin login successful → navigate to attendance page
         setTimeout(() => {
           navigate("/addstudent");
         }, 1500);
       } else {
-        toast.error(result.message || "Invalid credentials");
+        toast.error(result.message); // Access denied or invalid credentials
       }
     } catch (err) {
-      console.error(err);
-      toast.error("Something went wrong");
+      toast.error("Login failed: " + err.message);
     }
   };
-
-
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex items-center justify-center">
