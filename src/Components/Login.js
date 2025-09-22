@@ -105,12 +105,12 @@ console.log(result);
         </form>
 
         <div className="flex justify-center items-center mt-6 text-sm">
-          <p className="text-gray-600">Don't have admin access?</p>
+          <p className="text-gray-600">Don't have an account?</p>
           <span
             onClick={() => navigate("/signup")}
             className="text-blue-500 hover:underline ml-1 cursor-pointer"
           >
-            Contact Administrator
+            SignUp
           </span>
         </div>
       </div>
