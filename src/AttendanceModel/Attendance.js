@@ -129,6 +129,7 @@ const closeStudentModal = () => setSelectedStudentId(null);
         <div className="flex flex-col">
           <p className="font-semibold text-gray-800">{s.name}</p>
           <p className="text-gray-500 text-sm">{s.CNIC}</p>
+          <p className="text-gray-500 text-sm">{s.rollNumber}</p>
         </div>
       </div>
 
@@ -261,6 +262,7 @@ const closeStudentModal = () => setSelectedStudentId(null);
                          <div className="flex flex-col">
                            <p className="font-semibold text-gray-800 text-lg">{s.name}</p>
                            <p className="text-gray-500 text-sm mt-1">{s.CNIC}</p> {/* CNIC displayed here */}
+                           <p className="text-stone-900 text-sm mt-1">{s.rollNumber}</p>
                         </div>
                          </div>
                      
